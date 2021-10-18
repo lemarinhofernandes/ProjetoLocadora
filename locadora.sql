@@ -78,12 +78,15 @@ CREATE TABLE IF NOT EXISTS emprestimo (
 
 CREATE TABLE IF NOT EXISTS categoria (
   idFilme INT NOT NULL,
+  categoria ENUM("suspense", "terror", "acao", "ficcao", "comedia", "romance") not null,
+  /*
   suspense TINYINT(1),
   terror TINYINT(1),
   acao TINYINT(1),
   ficcao TINYINT(1),
   comedia TINYINT(1),
   romance TINYINT(1),
+  */
   FOREIGN KEY (idFilme)
     REFERENCES filmes (idfilme)
 );
@@ -103,43 +106,73 @@ CREATE TABLE IF NOT EXISTS diretor (
 );
 
 CREATE TABLE IF NOT EXISTS traducao (
-  idtraducao INT NOT NULL,
+  /*idtraducao INT NOT NULL,*/
   nomeTraduzido VARCHAR(100) NULL,
   idFilme INT NOT NULL,
-  PRIMARY KEY (idtraducao),
+  /*PRIMARY KEY (idtraducao),*/
   FOREIGN KEY (idFilme)
     REFERENCES filmes (idfilme)
 );
 
 INSERT INTO cliente VALUES
-(1, "Luís Eduardo", "11111111111", "email@example.com", 22, "Samambaia Sul");
+(1, "Luís Eduardo", "11111111111", "luis.eduardo@email.com", 22, "CNB 13"),
+(2, "Daniel S. Ribeiro", "22222222222", "daniel.ribeiro@gmail.com", 23, "QNA 02"),
+(3, "Sara Jessica", "33333333333", "sara.jessica@gmail.com", 41, "QNG 10"),
+(4, "Juliana Siqueira", "44444444444", "juliana@gmail.com", 19, "QNE 27");
 
 INSERT INTO telefone VALUES
-(1, "61985456156", 1);
+(1, "61985456156", 1),
+(2, "61989999999", 2),
+(3, "61984521231", 3),
+(4, "61454123145", 4);
 
 INSERT INTO funcionarios VALUES
-(1, "Fábio");
+(1, "Fábio"),
+(2, "João");
 
 INSERT INTO atende VALUES
-(1, 1);
+(1, 1),
+(2,1),
+(3,2),
+(4,1);
 
 INSERT INTO pagamento VALUES
-("PIX", 1, 1);
+("PIX", 1, 1),
+("CRED", 2, 1),
+("CRED", 3, 2),
+("DEB", 4, 1);
 
 INSERT INTO filmes VALUES
-(1, "The Mummy", "12", '18/06/1999');
+(1, "The Mummy", "12", '18/06/1999'),
+(2, "Butterfly Effect", "14", '23/07/2004'),
+(3, "Donnie Darko", "14", '19/01/2001'),
+(4, "The Hateful Eight", "18", "07/01/2016");
 
 INSERT INTO distribuidoras VALUES
-("distribuidora de filme", "11111111111111", "Rua das Laranjeiras, Casa 20", 1);
+("Paris Entertainment", "11111111111111", "Rua das Laranjeiras, Casa 20", 1),
+("Paris Entertainment", "11111111111111", "Rua das Laranjeiras, Casa 20", 2),
+("Paris Entertainment", "11111111111111", "Rua das Laranjeiras, Casa 20", 3),
+("DF Filmes", "22222222222", "SQS 300", 4);
 
 INSERT INTO emprestimo VALUES
-(1, '18-10-2021', 1);
+(1, '18/10/2021', 1),
+(2, '10/10/2021', 2),
+(3, '06/07/2021', 2),
+(4, '18/10/2021', 4);
 
 INSERT INTO categoria VALUES
-(1, 0, 0, 1, 0, 0, 0);
+(1, "acao"),
+(2, "ficcao"),
+(3, "ficcao");
 
 INSERT INTO atores VALUES
-(1,"Brendan Fraser");
+(1,"Brendan Fraser"),
+(2, "Ashton Kutcher"),
+(3, "Jake Gyllenhaal"),
+(4, "Samuel L. Jackson");
 
 INSERT INTO traducao VALUES
-(1, "A Mumia", 1);
+("A Mumia", 1),
+("Efeito Borboleta", 2),
+("Donnie Darko", 3),
+("Os Oito Odiados", 4);
