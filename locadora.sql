@@ -185,7 +185,7 @@ SELECT nomeCli, idadeCli, enderecoCLi, emailCli FROM locadora.cliente
 ORDER BY nomeCli;
 SELECT * FROM locadora.filmes;
 
-SELECT * FROM locadora.telefome;
+SELECT * FROM locadora.telefone;
 
 SELECT * FROM locadora.funcionarios;
 
@@ -201,4 +201,4 @@ SELECT * FROM locadora.categoria;
 
 SELECT * FROM locadora.atores;
 
-SELECT * FROM locadora.tradução;
+SELECT * FROM locadora.traducao;
