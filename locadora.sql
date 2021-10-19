@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS pagamento (
 CREATE TABLE IF NOT EXISTS filmes (
   idfilme INT NOT NULL,
   nomeFilme VARCHAR(100) NULL,
-  classificacaoFilme ENUM("L, 10, 12, 14, 16 ,18") NULL,
+  classificacaoFilme ENUM("L", "10", "12", "14", "16" ,"18") NULL,
   lancamentoFilme DATE NULL,
   PRIMARY KEY (idfilme)
 );
@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS filmes (
 CREATE TABLE IF NOT EXISTS emprestimo (
   idCliente INT NOT NULL,
   dataPedido DATE NULL,
+  dataDevolucao DATE NULL,
   idFilme INT NOT NULL,
   FOREIGN KEY (idFilme)
     REFERENCES filmes (idfilme),
@@ -143,10 +144,10 @@ INSERT INTO pagamento VALUES
 ("DEB", 4, 1);
 
 INSERT INTO filmes VALUES
-(1, "The Mummy", "12", '18/06/1999'),
-(2, "Butterfly Effect", "14", '23/07/2004'),
-(3, "Donnie Darko", "14", '19/01/2001'),
-(4, "The Hateful Eight", "18", "07/01/2016");
+(1, "The Mummy", "12", '1999/06/18'),
+(2, "Butterfly Effect", "14", '2004/07/23'),
+(3, "Donnie Darko", "14", '2001/01/19'),
+(4, "The Hateful Eight", "18", "2016/01/07");
 
 INSERT INTO distribuidoras VALUES
 ("Paris Entertainment", "11111111111111", "Rua das Laranjeiras, Casa 20", 1),
@@ -155,10 +156,10 @@ INSERT INTO distribuidoras VALUES
 ("DF Filmes", "22222222222", "SQS 300", 4);
 
 INSERT INTO emprestimo VALUES
-(1, '18/10/2021', 1),
-(2, '10/10/2021', 2),
-(3, '06/07/2021', 2),
-(4, '18/10/2021', 4);
+(1, '2021/10/18', '2021/10/25', 1),
+(2, '2021/10/10', '2021/10/17', 2),
+(3, '2021/07/06', '2021/07/13', 2),
+(4, '2021/10/18', '2021/10/25', 4);
 
 INSERT INTO categoria VALUES
 (1, "acao"),
@@ -176,3 +177,28 @@ INSERT INTO traducao VALUES
 ("Efeito Borboleta", 2),
 ("Donnie Darko", 3),
 ("Os Oito Odiados", 4);
+
+
+/* selects */
+
+SELECT nomeCli, idadeCli, enderecoCLi, emailCli FROM locadora.cliente
+ORDER BY nomeCli;
+SELECT * FROM locadora.filmes;
+
+SELECT * FROM locadora.telefome;
+
+SELECT * FROM locadora.funcionarios;
+
+SELECT * FROM locadora.atende;
+
+SELECT * FROM locadora.pagamento;
+
+SELECT * FROM locadora.distribuidoras;
+
+SELECT * FROM locadora.emprestimo;
+
+SELECT * FROM locadora.categoria;
+
+SELECT * FROM locadora.atores;
+
+SELECT * FROM locadora.tradução;
