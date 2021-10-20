@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS emprestimo (
 
 CREATE TABLE IF NOT EXISTS categoria (
   idFilme INT NOT NULL,
-  categoria ENUM("suspense", "terror", "acao", "ficcao", "comedia", "romance") not null,
+  categoria ENUM("suspense", "terror", "acao", "ficcao", "comedia", "romance", "drama") not null,
   /*
   suspense TINYINT(1),
   terror TINYINT(1),
@@ -159,12 +159,14 @@ INSERT INTO emprestimo VALUES
 (1, '2021/10/18', '2021/10/25', 1),
 (2, '2021/10/10', '2021/10/17', 2),
 (3, '2021/07/06', '2021/07/13', 2),
-(4, '2021/10/18', '2021/10/25', 4);
+(4, '2021/10/18', '2021/10/25', 4),
+(2, '2018/07/18', '2018/07/25', 4);
 
 INSERT INTO categoria VALUES
 (1, "acao"),
 (2, "ficcao"),
-(3, "ficcao");
+(3, "ficcao"),
+(4, "drama");
 
 INSERT INTO atores VALUES
 (1,"Brendan Fraser"),
@@ -178,27 +180,95 @@ INSERT INTO traducao VALUES
 ("Donnie Darko", 3),
 ("Os Oito Odiados", 4);
 
+INSERT into diretor VALUES
+(1, "Stephen Sommers"),
+(2, "Eric Bress, J. Mackye Gruber"),
+(3, "Richard Kelly"),
+(4, "Quentin Tarantino");
+
 
 /* selects */
 
-SELECT nomeCli, idadeCli, enderecoCLi, emailCli FROM locadora.cliente
+SELECT idCliente, nomeCli, idadeCli, enderecoCLi, emailCli FROM locadora.cliente
 ORDER BY nomeCli;
-SELECT * FROM locadora.filmes;
 
-SELECT * FROM locadora.telefone;
+SELECT * FROM locadora.filmes
+order by nomeFilme;
 
-SELECT * FROM locadora.funcionarios;
+SELECT * FROM locadora.telefone
+order by numero;
+
+SELECT * FROM locadora.funcionarios
+order by nomeFun;
 
 SELECT * FROM locadora.atende;
 
 SELECT * FROM locadora.pagamento;
 
-SELECT * FROM locadora.distribuidoras;
+SELECT * FROM locadora.distribuidoras
+order by nomeDistri;
 
-SELECT * FROM locadora.emprestimo;
+select * from locadora.emprestimo
+order by dataDevolucao;
 
-SELECT * FROM locadora.categoria;
+SELECT * FROM locadora.categoria
+order by categoria;
 
-SELECT * FROM locadora.atores;
+SELECT * FROM locadora.atores
+order by nomeAtor;
 
-SELECT * FROM locadora.traducao;
+SELECT * FROM locadora.traducao
+order by nomeTraduzido;
+
+
+/*relação cliente - pedido*/
+SELECT nomeFilme, nomeCli, dataPedido, dataDevolucao, categoria, nomeTraduzido  FROM locadora.emprestimo e
+join locadora.cliente c
+ on e.idCliente = c.idCliente 
+join locadora.filmes f 
+ on e.idFilme = f.idFilme
+join locadora.traducao t 
+on e.idFilme = t.idFilme
+join locadora.categoria i
+ on  e.idFilme = i.idFilme
+ order by dataDevolucao
+ ;
+ 
+ /*relação filmes - distribuidora*/
+ SELECT nomeFilme, nomeTraduzido, lancamentoFilme, classificacaoFilme, categoria, nomeDistri FROM filmes f
+ join distribuidoras d
+	on f.idFilme = d.idFilme
+join traducao t
+	on f.idfilme = t.idfilme
+join categoria c
+	on f.idfilme = c.idfilme
+order by nomeFilme
+;
+ 
+/*catalogo de filmes*/ 
+SELECT nomeFilme, classificacaoFilme, lancamentoFilme, nomeDiretor, nomeAtor, categoria, nomeTraduzido from filmes f
+join atores a
+	on f.idfilme = a.idfilme
+join categoria c
+	on f.idfilme = c.idfilme
+join traducao t
+	on f.idfilme = t.idfilme
+join diretor d
+	on f.idfilme = d.idfilme
+order by lancamentoFilme;
+
+/*where - tipo de pagamento*/
+SELECT nomeCli, emailCli, idadeCli, nomeFun, tipoPagamento from pagamento p
+join cliente c
+	on p.idCliente = c.idCliente
+join funcionarios f
+	on p.idfuncionario = f.idfuncionario
+where tipopagamento = 'CRED';
+
+/*group by categorias*/
+select categoria, count(*) as total
+from categoria c
+join filmes f
+	on c.idfilme = f.idfilme
+group by categoria
+order by categoria;
